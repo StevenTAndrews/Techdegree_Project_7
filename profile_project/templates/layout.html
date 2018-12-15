@@ -65,6 +65,7 @@
                 {% else %}
                     <li><a href="{% url 'accounts:view_profile' %}">Profile</a></li>
                     <li><a href="{% url 'accounts:edit_profile' %}">Edit Profile</a></li>
+                    <li><a href="{% url 'accounts:password' %}">Change Password</a></li>
                     <li><a href="{% url 'accounts:sign_out' %}">Sign Out</a></li>
                 {% endif %}
             </ul>

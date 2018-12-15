@@ -1,7 +1,7 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -50,7 +50,7 @@ def sign_up(request):
                 request,
                 "You're now a user! You've been signed in, too."
             )
-            return HttpResponseRedirect(reverse('home'))  # TODO: go to profile
+            return HttpResponseRedirect(reverse('accounts:view_profile'))
     return render(request, 'accounts/sign_up.html', {'form': form})
 
 
@@ -63,10 +63,8 @@ def sign_out(request):
 @login_required
 def view_profile(request):
     profile = models.Profile.objects.get(user=request.user.id)
-    fields = [field.name for field in models.Profile._meta.get_fields()]
-    fields = [e for e in fields if e not in ('id', 'user', 'avatar')]
     return render(request, 'accounts/profile.html',
-                  {'profile': profile, 'fields': fields})
+                  {'profile': profile})
 
 
 @login_required
@@ -79,3 +77,20 @@ def edit_profile(request):
             form.save()
             return HttpResponseRedirect(reverse('accounts:view_profile'))
     return render(request, 'accounts/profile_form.html', {'form': form})
+
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.User, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect('change_password')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'accounts/change_password_form.html',
+                    {'form': form})
+
+
+

@@ -4,10 +4,10 @@
 
 {% block body %}
 <div class='grid-100'>
-	<form method="POST">
-	    {% csrf_token %}
-	    {{ form.as_p }}
-	    <input type="submit" class="button-primary" value="Save">
-	</form>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="button-primary" value="Save">
+    </form>
 </div>
 {% endblock %}

@@ -4,13 +4,17 @@
 {% block title %}{{ super }} | {{ user.username }}'s Profile{% endblock %}
 
 {% block body %}
+
 <div class="grid-25">
-        {{ block.super }}
-    </div>
+    {{ block.super }}
+</div>
 <div class='grid-75'>
 <h1>{{ profile.first_name }} {{ profile.last_name }}</h1>
-	<p>Email: {{ profile.email }}</p>
-	<p>Birthday: {{ profile.birth_date }}</p>
-	<p>Bio: {{ profile.bio }}</p>
+    <p>Email: {{ profile.email }}</p>
+    <p>Birthday: {{ profile.birth_date }}</p>
+    <p>Bio: {{ profile.bio }}</p>
+    {% if profile.avatar %}
+        <img src="{{ profile.avatar.url }}" alt="avatar">
+    {% endif %}
 </div>
 {% endblock %}

@@ -6,13 +6,13 @@ from django.db import models
 
 # Create your models here.
 class Profile(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	first_name = models.CharField(max_length=255)
-	last_name = models.CharField(max_length=255)
-	email = models.EmailField()
-	birth_date = models.DateField(null=True)
-	bio = models.TextField(default='')
-	avatar = models.ImageField(upload_to='media/', blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    email = models.EmailField()
+    birth_date = models.DateField(null=True)
+    bio = models.TextField(default='')
+    avatar = models.ImageField(upload_to='profile_image', blank=True)
 
 
 @receiver(post_save, sender=User)
