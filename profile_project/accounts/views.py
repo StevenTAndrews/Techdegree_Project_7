@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.core.urlresolvers import reverse
+from django.core import validators
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
@@ -82,13 +83,13 @@ def edit_profile(request):
 @login_required
 def change_password(request):
     if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
+        form = forms.PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
             return HttpResponseRedirect(reverse('accounts:view_profile'))
     else:
-        form = PasswordChangeForm(request.user)
+        form = forms.PasswordChangeForm(request.user)
     return render(request, 'accounts/change_password_form.html',
                     {'form': form})
 

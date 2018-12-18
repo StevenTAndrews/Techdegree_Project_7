@@ -4,8 +4,11 @@ from django.db.models.signals import post_save
 
 from django.db import models
 
-# Create your models here.
+
 class Profile(models.Model):
+    '''
+    Creates model for profile
+    '''
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
